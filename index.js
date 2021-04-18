@@ -48,6 +48,10 @@ const gitCommit = (commitMessage) => {
 const commitArgv = async (argv) => {
     const commitMessage = toCommitMessage(argv._[0], argv.scope, argv.message)
 
+    if (commitMessage.length > 72) {
+        throw new Error('Commit message is longer than 72 chars!')
+    }
+
     if (argv.add || argv.a) 
         await gitAdd()
 
