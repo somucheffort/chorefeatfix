@@ -68,7 +68,7 @@ You can use `-s` option to provide scope of your fix, chore, feat, etc.
 ### Example
 
 ```console
-$ cff -s deps fix updated discord.js to last version
+$ cff -s deps fix 'updated discord.js to last version'
 ```
 
 ## `-a` or `--add` option
@@ -78,12 +78,12 @@ If you provide `-a` option, chorefeatfix will execute `git add .` command, so yo
 ### Example
 
 ```console
-$ cff -a fix fixed dependabot
+$ cff -a fix 'fixed dependabot'
 ```
 
 Works as
 
 ```console
 $ git add .
-$ cff fix fixed dependabot
+$ cff fix 'fixed dependabot'
 ```
