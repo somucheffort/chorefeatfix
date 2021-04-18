@@ -46,7 +46,7 @@ const gitCommit = (commitMessage) => {
 }
 
 const commitArgv = async (argv) => {
-    const commitMessage = toCommitMessage(argv._[0], argv.scope, argv.message.join(' '))
+    const commitMessage = toCommitMessage(argv._[0], argv.scope, argv.message)
 
     if (argv.add || argv.a) 
         await gitAdd()
@@ -57,7 +57,7 @@ const commitArgv = async (argv) => {
 const commitYargs = (yargs) => {
     yargs
     .positional('message', {
-        describe: 'Commit message'
+        describe: 'Commit message. Use quotes.',
     })
     .required('message')
 }
@@ -71,13 +71,13 @@ yargs(hideBin(process.argv))
     .alias('h', 'help')
     .epilog('by redcarti')
     .demandCommand()
-    .command('chore [message..]', types['chore'], commitYargs, commitArgv)
-    .command('feat [message..]', types['feat'], commitYargs, commitArgv)
-    .command('fix [message..]', types['fix'], commitYargs, commitArgv)
-    .command('docs [message..]', types['docs'], commitYargs, commitArgv)
-    .command('style [message..]', types['style'], commitYargs, commitArgv)
-    .command('refactor [message..]', types['refactor'], commitYargs, commitArgv)
-    .command('test [message..]', types['test'], commitYargs, commitArgv)
+    .command('chore [message]', types['chore'], commitYargs, commitArgv)
+    .command('feat [message]', types['feat'], commitYargs, commitArgv)
+    .command('fix [message]', types['fix'], commitYargs, commitArgv)
+    .command('docs [message]', types['docs'], commitYargs, commitArgv)
+    .command('style [message]', types['style'], commitYargs, commitArgv)
+    .command('refactor [message]', types['refactor'], commitYargs, commitArgv)
+    .command('test [message]', types['test'], commitYargs, commitArgv)
     .option('scope', {
         alias: 's',
         type: 'string',

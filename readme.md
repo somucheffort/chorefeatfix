@@ -23,15 +23,15 @@ $ cff
 Usage: cff [options] <command>
 
 Commands:
-  cff chore [message..]     updating grunt tasks etc; no production code change 
-  cff feat [message..]      new feature for the user, not a new feature for     
+  cff chore [message]       updating grunt tasks etc; no production code change 
+  cff feat [message]        new feature for the user, not a new feature for     
                             build script
-  cff fix [message..]       bug fix for the user, not a fix to a build script   
-  cff docs [message..]      changes to the documentation
-  cff style [message..]     formatting, missing semi colons, etc; no production 
+  cff fix [message]         bug fix for the user, not a fix to a build script   
+  cff docs [message]        changes to the documentation
+  cff style [message]       formatting, missing semi colons, etc; no production 
                             code change
-  cff refactor [message..]  refactoring production code, eg. renaming a variable
-  cff test [message..]      adding missing tests, refactoring tests; no
+  cff refactor [message]    refactoring production code, eg. renaming a variable
+  cff test [message]        adding missing tests, refactoring tests; no
                             production code change
 
 Options:
@@ -41,4 +41,22 @@ Options:
   -a, --add      Perform `git add` command                             [boolean]
 
 by redcarti
+```
+
+## Commit message
+
+You must use quotes in your message, if you are going to write more than one word.
+
+### Example
+
+One word:
+
+```console
+$ cff chore test
+```
+
+More than one word:
+
+```console
+$ cff chore 'test. simple test. dont use test. something...'
 ```
