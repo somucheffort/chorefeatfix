@@ -38,6 +38,7 @@ Options:
       --version  Show version number                                   [boolean]
   -h, --help     Show help                                             [boolean]
   -s, --scope    Set scope of a commit                                  [string]
+  -a, --add      Perform `git add` command                             [boolean]
 
 by redcarti
 ```
