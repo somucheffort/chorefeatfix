@@ -20,29 +20,30 @@ const types = {
 
 const toCommitMessage = (type, scope, message) => `${type}${scope ? `(${scope})` : ''}: ${message}`
 
+const toGitCommand = (message) => `git commit -m "${message}"`
+
+const gitOnData = (msg) => {
+    console.log(gitPrefix, msg)
+}
+
+const gitOnError = (msg) => {
+    console.log(cffPrefix, 'Seems like something broke... Check the error below:')
+    console.log(gitPrefix, msg)
+}
+
 const gitAdd = () => {
     const gitAddProcess = exec(`git add .`)
 
-    gitAddProcess.stdout.on('data', (msg) => {
-        console.log(gitPrefix, msg)
-    })
-    gitAddProcess.stderr.on('data', (msg) => {
-        console.log(cffPrefix, 'Seems like something broke... Check the error below:')
-        console.log(gitPrefix, msg)
-    })
+    gitAddProcess.stdout.on('data', gitOnData)
+    gitAddProcess.stderr.on('data', gitOnError)
 }
 
 const gitCommit = (commitMessage) => {
     const gitCommand = toGitCommand(commitMessage)
     const gitProcess = exec(gitCommand)
 
-    gitProcess.stdout.on('data', (msg) => {
-        console.log(gitPrefix, msg)
-    })
-    gitProcess.stderr.on('data', (msg) => {
-        console.log(cffPrefix, 'Seems like something broke... Check the error below:')
-        console.log(gitPrefix, msg)
-    })
+    gitProcess.stdout.on('data', gitOnData)
+    gitProcess.stderr.on('data', gitOnError)
 }
 
 const commitArgv = async (argv) => {
@@ -65,8 +66,6 @@ const commitYargs = (yargs) => {
     })
     .required('message')
 }
-
-const toGitCommand = (message) => `git commit -m "${message}"`
 
 yargs(hideBin(process.argv))
     .scriptName('cff')
