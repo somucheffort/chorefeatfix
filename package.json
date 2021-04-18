@@ -9,5 +9,9 @@
   "dependencies": {
     "colors-cli": "^1.0.27",
     "yargs": "^16.2.0"
+  },
+  "bin": {
+    "cff": "index.js",
+    "chorefeatfix": "index.js"
   }
 }
