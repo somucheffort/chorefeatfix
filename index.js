@@ -22,7 +22,19 @@ const toCommitMessage = (type, scope, message) => `${type}${scope ? `(${scope})`
 
 const commitArgv = (argv) => {
     const commitMessage = toCommitMessage(argv._[0], argv.scope, argv.message.join(' '))
-    // console.log(commitMessage)
+
+    if (argv.add || argv.a) {
+        const gitAddProcess = exec(`git add .`)
+
+        gitAddProcess.stdout.on('data', (msg) => {
+            console.log(gitPrefix, msg)
+        })
+        gitAddProcess.stderr.on('data', (msg) => {
+            console.log(cffPrefix, 'Seems like something broke... Check the error below:')
+            console.log(gitPrefix, msg)
+        })
+    }
+
     const gitCommand = toGitCommand(commitMessage)
     const gitProcess = exec(gitCommand)
 
@@ -63,5 +75,10 @@ yargs(hideBin(process.argv))
         alias: 's',
         type: 'string',
         description: 'Set scope of a commit'
+    })
+    .option('add', {
+        alias: 'a',
+        type: 'boolean',
+        description: 'Perform `git add` command'
     })
     .argv
