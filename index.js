@@ -66,7 +66,7 @@ const toGitCommand = (message) => `git commit -m "${message}"`
 
 yargs(hideBin(process.argv))
     .scriptName('cff')
-    .usage('Usage: $0 [options] <command>')
+    .usage(cffPrefix + ' Usage: $0 [options] <command>')
     .help('h')
     .alias('h', 'help')
     .epilog('by redcarti')
