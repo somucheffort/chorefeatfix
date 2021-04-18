@@ -32,7 +32,7 @@ const gitOnError = (msg) => {
 }
 
 const gitAdd = () => {
-    const gitAddProcess = exec(`git add .`)
+    const gitAddProcess = exec('git add .')
 
     gitAddProcess.stdout.on('data', gitOnData)
     gitAddProcess.stderr.on('data', gitOnError)
