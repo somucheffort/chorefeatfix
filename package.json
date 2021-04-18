@@ -11,7 +11,7 @@
     "yargs": "^16.2.0"
   },
   "bin": {
-    "cff": "index.js",
-    "chorefeatfix": "index.js"
+    "cff": "./bin/cff",
+    "chorefeatfix": "./bin/cff"
   }
 }
