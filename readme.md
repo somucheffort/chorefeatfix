@@ -60,3 +60,30 @@ More than one word:
 ```console
 $ cff chore 'test. simple test. dont use test. something...'
 ```
+
+## `-s` or `--scope` option
+
+You can use `-s` option to provide scope of your fix, chore, feat, etc.
+
+### Example
+
+```console
+$ cff -s deps fix updated discord.js to last version
+```
+
+## `-a` or `--add` option
+
+If you provide `-a` option, chorefeatfix will execute `git add .` command, so you don't need to type it yourself!
+
+### Example
+
+```console
+$ cff -a fix fixed dependabot
+```
+
+Works as
+
+```console
+$ git add .
+$ cff fix fixed dependabot
+```
