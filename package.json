@@ -1,7 +1,7 @@
 {
-  "name": "chorefeatfix",
+  "name": "cff",
   "version": "0.1.0",
-  "description": "script to fast git semantic commit messages",
+  "description": "CLI app that will help you to create semantic commit messages",
   "main": "index.js",
   "repository": "https://github.com/redcarti/chorefeatfix",
   "author": "redcarti",

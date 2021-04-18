@@ -43,7 +43,7 @@ const commitYargs = (yargs) => {
     .required('message')
 }
 
-const toGitCommand = (message) => `git commit -m '${message}'`
+const toGitCommand = (message) => `git commit -m "${message}"`
 
 yargs(hideBin(process.argv))
     .scriptName('cff')
