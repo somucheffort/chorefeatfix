@@ -1,0 +1,13 @@
+{
+  "name": "chorefeatfix",
+  "version": "0.1.0",
+  "description": "script to fast git semantic commit messages",
+  "main": "index.js",
+  "repository": "https://github.com/redcarti/chorefeatfix",
+  "author": "redcarti",
+  "license": "MIT",
+  "dependencies": {
+    "colors-cli": "^1.0.27",
+    "yargs": "^16.2.0"
+  }
+}
