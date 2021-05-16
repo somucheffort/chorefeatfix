@@ -1,6 +1,9 @@
+#!/usr/bin/env node
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const colors = require('colors-cli/safe')
+const config = require('../config')
+require('string-format-js')
 
 const cffPrefix = colors.xb232.red('cff')
 const gitPrefix = colors.xb232.white('git')
@@ -16,9 +19,15 @@ const types = {
     refactor: 'refactoring production code, eg. renaming a variable',
     test: 'adding missing tests, refactoring tests; no production code change',
     chore: 'updating grunt tasks etc; no production code change',
+    ci: 'changes to the ci'
 }
 
-const toCommitMessage = (type, scope, message) => `${type}${scope ? `(${scope})` : ''}: ${message}`
+const toCommitMessage = (type, scope, message, closes) => config.template_commit.format(
+    type, 
+    scope ? config.template_scope.format(scope) : '', 
+    message, 
+    closes ? config.template_closes.format(closes) : ''
+) // `${type}${scope ? `(${scope})` : ''}: ${message}`
 
 const toGitCommand = (message) => `git commit -m "${message}"`
 
@@ -31,14 +40,14 @@ const gitOnError = (msg) => {
     console.log(gitPrefix, msg)
 }
 
-const gitAdd = () => {
+const gitAdd = async () => {
     const gitAddProcess = exec('git add .')
 
     gitAddProcess.stdout.on('data', gitOnData)
     gitAddProcess.stderr.on('data', gitOnError)
 }
 
-const gitCommit = (commitMessage) => {
+const gitCommit = async (commitMessage) => {
     const gitCommand = toGitCommand(commitMessage)
     const gitProcess = exec(gitCommand)
 
@@ -47,7 +56,12 @@ const gitCommit = (commitMessage) => {
 }
 
 const commitArgv = async (argv) => {
-    const commitMessage = toCommitMessage(argv._[0], argv.scope, argv.message)
+    const commitMessage = toCommitMessage(
+        argv._[0], // command name, used as commit type
+        argv.scope, 
+        argv.message,
+        argv.closes
+    )
 
     if (commitMessage.length > 72) {
         throw new Error('Commit message is longer than 72 chars!')
@@ -67,20 +81,13 @@ const commitYargs = (yargs) => {
     .required('message')
 }
 
-yargs(hideBin(process.argv))
+const cff = yargs(hideBin(process.argv))
     .scriptName('cff')
-    .usage(cffPrefix + ' Usage: $0 [options] <command>')
+    .usage('Usage: $0 [options] <command>')
     .help('h')
     .alias('h', 'help')
     .epilog('by redcarti')
     .demandCommand()
-    .command('chore [message]', types['chore'], commitYargs, commitArgv)
-    .command('feat [message]', types['feat'], commitYargs, commitArgv)
-    .command('fix [message]', types['fix'], commitYargs, commitArgv)
-    .command('docs [message]', types['docs'], commitYargs, commitArgv)
-    .command('style [message]', types['style'], commitYargs, commitArgv)
-    .command('refactor [message]', types['refactor'], commitYargs, commitArgv)
-    .command('test [message]', types['test'], commitYargs, commitArgv)
     .option('scope', {
         alias: 's',
         type: 'string',
@@ -89,6 +96,17 @@ yargs(hideBin(process.argv))
     .option('add', {
         alias: 'a',
         type: 'boolean',
-        description: 'Perform `git add` command'
+        description: 'Perform `git add .` command'
     })
-    .argv
+    .option('closes', {
+        alias: ['close', 'c'],
+        type: 'number',
+        description: 'Close an issue'
+    })
+
+Object.entries(types).forEach(([type, msg]) => {
+    cff
+    .command(type + ' [message]', msg, commitYargs, commitArgv)
+})
+    
+cff.argv
