@@ -9,7 +9,7 @@
   "dependencies": {
     "colors-cli": "^1.0.27",
     "string-format-js": "^1.0.0",
-    "yargs": "^17.0.0"
+    "yargs": "^17.2.0"
   },
   "bin": {
     "cff": "./bin/cff",
